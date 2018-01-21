@@ -1,0 +1,84 @@
+
+{% extends "subscription/index.html" %}
+{% block content %}
+<style>
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+.divident {
+    padding-left:50px;
+    display:inline-block;
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+
+
+tr:nth-child(even) {
+	background-color: #dddddd;
+}
+</style>
+</head>
+
+<body>
+
+<form action="vehicle_search" method ="get" style="margin: 0">
+	<label for = "search_box">Search By Plate Number</label>
+    <input  class = "search_field" id="search_box" type="text" name="q"  placeholder="Search..." >
+    <button id="search_submit" type="submit" >Submit</button>
+</form>
+
+<p>{{data}}</p>
+
+<table>
+	<tr>
+		<th>Vehicle</th>
+		<th>Company</th>
+		<th>Driver</th>
+		
+		<th>Main Geofence</th>
+		<th>Child Geofence</th>
+
+		<th>Main Response</th>
+		<th>Child Response</th>
+
+
+
+	</tr>
+
+	{% for v in object_list %}   
+   
+		<tr>    
+			<td>{{ v.plate }}</td>
+			<td>{{ v.company}}</td>
+			<td><a href="/geofence/update_driver/{{v.id}}"> {{v.driver.driver}}</a></td>
+			{% if  v.geotype == '1' %}
+				<td> <a href="/geofence/update_geofence/{{v.id}}"> {{v.geofence.geofence}}</a></td>
+			{% elif v.geotype == '2' and v.response == ''%}
+				<td><a href="/geofence/update_geofence/{{v.id}}">Assign Geofence</a></td>
+
+
+			{% endif %}
+
+			{% if v.child_response == 'ok' and v.child_geotype == '1' %}
+				<td><a href="/geofence/update_child_geofence/{{v.id}}">{{ v.child_geofence.child_geofence }}</a></td>		
+			{% elif v.child_response == '' and v.child_geotype == '2' %}
+				<td><a href="/geofence/update_child_geofence/{{v.id}}">Assign Child Geofence</a></td>
+
+
+			{% endif %}
+
+			<td>{{ v.response }}</td>
+			<td>{{ v.child_response }}</td>
+
+		</tr>
+	{% endfor %}
+
+</table>
+{% endblock %}

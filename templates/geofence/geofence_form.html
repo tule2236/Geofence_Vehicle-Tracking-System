@@ -1,0 +1,14 @@
+{% extends "subscription/index.html" %}
+{% block content %}
+<h3>Vehicle: {{vehicle_instance.plate}}</h3>
+<p>Time:  {{vehicle_instance.geo_time}}</p>
+<p>Driver:  {{vehicle_instance.driver.driver}}</p>
+
+<form action="" method="post">
+	{% csrf_token %}
+	<table>
+		{{form}}
+	</table>
+	<input type="submit" value = "Submit"/>
+</form>
+{% endblock %}

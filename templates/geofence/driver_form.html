@@ -1,0 +1,11 @@
+{% extends "subscription/index.html" %}
+{% block content %}
+<h3>Vehicle: {{vehicle_instance.plate}}</h3>
+<form action="" method="post">
+	{% csrf_token %}
+	<table>
+		{{form}}
+	</table>
+	<input type="submit" value = "Submit"/>
+</form>
+{% endblock %}
